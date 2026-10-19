@@ -248,7 +248,8 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => openBooking()}
-              className="hidden lg:inline-flex items-center gap-2 px-5 btn-luxe btn-outline text-xs uppercase tracking-widest font-semibold shrink-0 cursor-pointer"
+              style={{ width: '131px' }}
+              className="hidden lg:inline-flex items-center gap-2 px-5 btn-luxe btn-outline text-xs uppercase tracking-widest font-semibold shrink-0 cursor-pointer w-[131px]"
             >
               <span>Book Visit</span>
               <ArrowRight className="w-3.5 h-3.5 text-[#8A6A2F]" />
