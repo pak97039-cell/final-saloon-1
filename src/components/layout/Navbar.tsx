@@ -6,6 +6,7 @@ import {
   X,
   Clock,
   ArrowRight,
+  Calendar,
 } from 'lucide-react';
 import { siteConfig } from '../../config/siteConfig';
 import { WhatsAppIcon } from '../icons/WhatsAppIcon';
@@ -188,38 +189,42 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Sticky Navigation Bar: shrinks from 80px to 64px, gains glass blur after 24px */}
+      {/* Main Sticky Navigation Bar: 4-Column Grid on Mobile, Flex on Desktop */}
       <header
-        className={`sticky top-0 z-40 transition-all duration-300 ease-luxe ${
+        className={`sticky top-0 z-40 transition-all duration-300 ease-luxe w-full max-w-full ${
           isScrolled
             ? 'glass-panel border-b border-[#E8DCCF] shadow-soft-1'
             : 'bg-[#FAF8F5] border-b border-[#E8DCCF]/70'
         }`}
       >
         <div
-          className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between transition-all duration-300 ease-luxe ${
-            isScrolled ? 'h-16' : 'h-20'
+          className={`header-nav-container ${
+            isScrolled ? 'lg:h-16' : 'lg:h-20'
           }`}
         >
-          {/* Brand Logo */}
+          {/* Column 1 & 2: Brand Link (uses display: contents on mobile so Logo=Col 1, Brand=Col 2) */}
           <a
             href="#"
-            className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-[#8A6A2F] shrink-0"
+            className="header-brand-link focus-visible:outline-[#8A6A2F]"
+            aria-label="Luxeora Atelier Home"
           >
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-sm bg-[#1E1B18] text-[#C5A059] flex items-center justify-center border border-[#C5A059]/30 group-hover:border-[#C5A059] transition-colors shadow-soft-1 shrink-0">
-              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A059]" />
+            {/* Column 1: Logo (fixed 40px square, no extra margin, flex-shrink 0) */}
+            <div className="header-logo-icon rounded-sm bg-[#1E1B18] text-[#C5A059] flex items-center justify-center border border-[#C5A059]/30 hover:border-[#C5A059] transition-colors shadow-soft-1 shrink-0">
+              <Sparkles className="w-4 h-4 text-[#C5A059]" />
             </div>
-            <div>
-              <span className="font-serif tracking-[0.2em] sm:tracking-[0.25em] uppercase text-xl sm:text-2xl font-medium text-[#1E1B18] block leading-none whitespace-nowrap">
+
+            {/* Column 2: Brand Block (the only part allowed to shrink) */}
+            <div className="header-brand-block">
+              <span className="header-brand-title">
                 Luxeora
               </span>
-              <span className="eyebrow-text text-[#8A6A2F] text-[9px] block mt-1 whitespace-nowrap">
+              <span className="header-brand-tagline">
                 Atelier • F-6 Islamabad
               </span>
             </div>
           </a>
 
-          {/* Desktop Nav Links with Animated Underline and ScrollSpy Active State */}
+          {/* Desktop Nav Links (hidden on mobile, centered on desktop) */}
           <nav
             className="hidden lg:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider"
             aria-label="Main Navigation"
@@ -242,30 +247,31 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Action Button & Mobile Toggle */}
-          <div className="flex items-center gap-3 shrink-0">
-            {/* Desktop-only Book Visit button to prevent mobile header squeezing */}
-            <button
-              type="button"
-              onClick={() => openBooking()}
-              style={{ width: '131px' }}
-              className="hidden lg:inline-flex items-center gap-2 px-5 btn-luxe btn-outline text-xs uppercase tracking-widest font-semibold shrink-0 cursor-pointer w-[131px]"
-            >
-              <span>Book Visit</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#8A6A2F]" />
-            </button>
+          {/* Column 3: Book Visit Button (single button in DOM with responsive CSS) */}
+          <button
+            type="button"
+            onClick={() => openBooking()}
+            aria-label="Book a visit"
+            className="header-book-btn btn-luxe btn-outline text-xs uppercase tracking-widest font-semibold cursor-pointer rounded-sm border border-[#C5A059]/60 hover:border-[#C5A059] text-[#1E1B18] bg-[#FFFDF9]"
+          >
+            <Calendar className="book-btn-calendar w-4 h-4 text-[#8A6A2F]" aria-hidden="true" />
+            <span className="book-btn-text">
+              <span>BOOK</span>
+              <span className="book-btn-visit"> VISIT</span>
+            </span>
+            <ArrowRight className="book-btn-arrow w-3.5 h-3.5 text-[#8A6A2F] ml-1.5" aria-hidden="true" />
+          </button>
 
-            {/* Mobile Hamburger Toggle (hidden on desktop) */}
-            <button
-              type="button"
-              onClick={openMobileMenu}
-              className="lg:hidden w-10 h-10 sm:w-11 sm:h-11 shrink-0 flex items-center justify-center rounded-sm border border-[#E8DCCF] bg-[#FFFDF9] text-[#1E1B18] hover:bg-[#FAF8F5] transition-colors focus-visible:outline-[#8A6A2F] cursor-pointer"
-              aria-label="Open navigation menu"
-              aria-expanded={isDrawerMounted}
-            >
-              <Menu className="w-5 h-5 text-[#1E1B18]" />
-            </button>
-          </div>
+          {/* Column 4: Mobile Hamburger Button (hidden on desktop) */}
+          <button
+            type="button"
+            onClick={openMobileMenu}
+            className="header-menu-btn lg:hidden rounded-sm border border-[#E8DCCF] bg-[#FFFDF9] text-[#1E1B18] hover:bg-[#FAF8F5] transition-colors focus-visible:outline-[#8A6A2F] cursor-pointer"
+            aria-label="Open navigation menu"
+            aria-expanded={isDrawerMounted}
+          >
+            <Menu className="w-5 h-5 text-[#1E1B18]" />
+          </button>
         </div>
       </header>
 
@@ -284,7 +290,7 @@ export const Navbar: React.FC = () => {
           {/* Drawer Container with Slide In / Slide Out */}
           <div
             ref={mobileMenuRef}
-            className={`fixed inset-y-0 right-0 max-w-[85vw] sm:max-w-sm w-full bg-[#FAF8F5] border-l border-[#E8DCCF] p-5 sm:p-6 shadow-2xl flex flex-col justify-between overflow-y-auto transition-transform duration-300 ease-luxe ${
+            className={`fixed inset-y-0 right-0 max-w-[85vw] sm:max-w-sm w-full max-w-[100vw] box-border bg-[#FAF8F5] border-l border-[#E8DCCF] p-5 sm:p-6 shadow-2xl flex flex-col justify-between overflow-y-auto transition-transform duration-300 ease-luxe ${
               isDrawerVisible ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
