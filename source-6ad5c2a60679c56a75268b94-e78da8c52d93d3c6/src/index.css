@@ -1,0 +1,798 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-editorial: "Cormorant Garamond", Georgia, serif;
+
+  --color-cream: #FAF8F5;
+  --color-sand: #E8E2D8;
+  --color-sand-light: #F4EFEB;
+  --color-gold-warm: #C5A059;
+  --color-gold-dark: #8A6A2F;
+  --color-gold-light: #E5C378;
+  --color-gold-muted: #D4AF37;
+  --color-charcoal: #1E1B18;
+  --color-charcoal-muted: #2E2924;
+  --color-midnight: #121212;
+
+  --color-champagne: #F3E8E0;
+  --color-blush: #EBD9CF;
+  --color-ivory: #FFFDF9;
+  --color-rose-taupe: #8C6F66;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+}
+
+:root {
+  --surface-cream: #FAF8F5;
+  --surface-ivory: #FFFDF9;
+  --surface-champagne: #F3E8E0;
+  --surface-blush: #EBD9CF;
+  --surface-charcoal: #1E1B18;
+  --surface-midnight: #121212;
+  --surface-rose-taupe: #8C6F66;
+
+  --shadow-soft-1: 0 4px 20px -2px rgba(90, 60, 30, 0.06), 0 2px 6px -1px rgba(90, 60, 30, 0.04);
+  --shadow-soft-2: 0 12px 32px -4px rgba(90, 60, 30, 0.10), 0 4px 12px -2px rgba(90, 60, 30, 0.06);
+  --shadow-soft-3: 0 24px 48px -6px rgba(90, 60, 30, 0.14), 0 8px 20px -3px rgba(90, 60, 30, 0.08);
+
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 200ms;
+  --dur-base: 400ms;
+  --dur-slow: 700ms;
+
+  --z-base: 1;
+  --z-sticky: 40;
+  --z-overlay: 50;
+  --z-modal: 60;
+  --z-toast: 70;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: #EBD9CF;
+  color: var(--color-charcoal);
+}
+
+/* Typography scale using clamp */
+h1 {
+  font-size: clamp(1.85rem, 5.5vw, 4.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+h2 {
+  font-size: clamp(1.6rem, 3.8vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+h3 {
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  line-height: 1.25;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-gold-dark);
+}
+
+p {
+  line-height: 1.65;
+}
+
+.font-editorial {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.tabular-price {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "onum" 0;
+}
+
+/* Subtle Paper Grain Noise Overlay (Hero & Midnight only, opacity <= 0.04) */
+.paper-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+/* Elevation shadow utility classes */
+.shadow-soft-1 {
+  box-shadow: var(--shadow-soft-1);
+}
+
+.shadow-soft-2 {
+  box-shadow: var(--shadow-soft-2);
+}
+
+.shadow-soft-3 {
+  box-shadow: var(--shadow-soft-3);
+}
+
+/* Card System: Ivory background, hairline sand border, subtle warm shadow, 4px radius max */
+.card-luxe {
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-sand);
+  border-radius: 4px;
+  box-shadow: var(--shadow-soft-1);
+  position: relative;
+  transition: transform var(--dur-base) var(--ease-luxe),
+              box-shadow var(--dur-base) var(--ease-luxe),
+              border-color var(--dur-base) var(--ease-luxe);
+}
+
+/* Step 14 Item 1: Treatment & Artist cards interactive class with growing bottom gold line */
+.card-interactive {
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--dur-base) var(--ease-luxe),
+              box-shadow var(--dur-base) var(--ease-luxe),
+              border-color var(--dur-base) var(--ease-luxe);
+}
+
+.card-interactive::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-gold-warm);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-slow) var(--ease-luxe);
+  pointer-events: none;
+  z-index: 2;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-luxe:hover {
+    box-shadow: var(--shadow-soft-2);
+    border-color: rgba(197, 160, 89, 0.5);
+  }
+
+  .card-interactive:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft-2);
+    border-color: var(--color-gold-warm);
+  }
+
+  .card-interactive:hover::after {
+    transform: scaleX(1);
+  }
+
+  .card-interactive:hover .card-zoom-img {
+    transform: scale(1.05);
+  }
+}
+
+.card-zoom-img {
+  transition: transform var(--dur-slow) var(--ease-luxe);
+}
+
+/* Step 14 Item 2: Service pillar cards */
+.pillar-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--dur-base) var(--ease-luxe),
+              box-shadow var(--dur-base) var(--ease-luxe),
+              border-color var(--dur-base) var(--ease-luxe);
+}
+
+.pillar-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(18, 18, 18, 0.85) 0%, rgba(18, 18, 18, 0.4) 40%, transparent 100%);
+  transition: background var(--dur-base) var(--ease-luxe);
+  pointer-events: none;
+}
+
+.pillar-title {
+  transition: transform var(--dur-base) var(--ease-luxe);
+}
+
+.pillar-action {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--dur-base) var(--ease-luxe),
+              transform var(--dur-base) var(--ease-luxe);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pillar-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft-2);
+    border-color: var(--color-gold-warm);
+  }
+
+  .pillar-card:hover .pillar-veil {
+    background: linear-gradient(to top, rgba(18, 18, 18, 0.95) 0%, rgba(18, 18, 18, 0.6) 50%, rgba(18, 18, 18, 0.15) 100%);
+  }
+
+  .pillar-card:hover .card-zoom-img {
+    transform: scale(1.05);
+  }
+
+  .pillar-card:hover .pillar-title {
+    transform: translateY(-6px);
+  }
+
+  .pillar-card:hover .pillar-action {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Step 14 Item 5: Bridal package glow border on hover and one-time shimmer badge */
+.bridal-card {
+  position: relative;
+  transition: transform var(--dur-base) var(--ease-luxe),
+              box-shadow var(--dur-base) var(--ease-luxe),
+              border-color var(--dur-base) var(--ease-luxe);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bridal-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-gold-warm);
+    box-shadow: 0 10px 30px -4px rgba(197, 160, 89, 0.35), 0 4px 12px -2px rgba(90, 60, 30, 0.08);
+  }
+}
+
+@keyframes badge-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.badge-shimmer-once {
+  background: linear-gradient(
+    90deg,
+    #D4AF37 0%,
+    #FFFDF9 50%,
+    #D4AF37 100%
+  );
+  background-size: 200% 100%;
+  animation: badge-shimmer 2.2s var(--ease-luxe) 1 forwards;
+}
+
+/* Step 14 Item 6: Gallery item reveal and caption */
+.gallery-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--dur-base) var(--ease-luxe),
+              box-shadow var(--dur-base) var(--ease-luxe);
+}
+
+.gallery-caption {
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform var(--dur-base) var(--ease-luxe),
+              opacity var(--dur-base) var(--ease-luxe);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gallery-card:hover .gallery-caption {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .gallery-card:hover .card-zoom-img {
+    transform: scale(1.05);
+  }
+}
+
+/* Step 14 Item 9: Button scale(0.98) pressed state & arrow slide 4px on hover */
+button:active,
+.btn-luxe:active,
+.btn-gold-primary:active,
+.btn-outline:active,
+.btn-whatsapp:active {
+  transform: scale(0.98) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-gold-primary:hover .btn-arrow-slide,
+  .btn-outline:hover .btn-arrow-slide,
+  .btn-luxe:hover .btn-arrow-slide,
+  button:hover .btn-arrow-slide,
+  a:hover .btn-arrow-slide {
+    transform: translateX(4px);
+  }
+}
+
+.btn-arrow-slide {
+  transition: transform var(--dur-fast) var(--ease-luxe);
+}
+
+/* Stagger grid fade-up when filter changes */
+@keyframes grid-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-grid-fade-up {
+  animation: grid-fade-up 450ms var(--ease-luxe) both;
+}
+
+/* Unified Button System (All buttons min 48px height on touch) */
+.btn-luxe {
+  min-height: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0 1.75rem;
+  transition: transform var(--dur-fast) var(--ease-luxe),
+              background-color var(--dur-fast) var(--ease-luxe),
+              border-color var(--dur-fast) var(--ease-luxe),
+              box-shadow var(--dur-fast) var(--ease-luxe),
+              color var(--dur-fast) var(--ease-luxe);
+  cursor: pointer;
+}
+
+.btn-luxe:focus-visible {
+  outline: 2px solid var(--color-gold-dark);
+  outline-offset: 2px;
+}
+
+/* Primary Button: Soft Gold solid, charcoal text, subtle lift */
+.btn-gold-primary {
+  min-height: 48px;
+  height: 48px;
+  padding: 0 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  background-color: var(--color-gold-warm);
+  color: var(--color-charcoal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  border-radius: 2px;
+  border: 1px solid rgba(197, 160, 89, 0.9);
+  box-shadow: 0 2px 12px rgba(197, 160, 89, 0.28);
+  transition: all var(--dur-fast) var(--ease-luxe);
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-gold-primary:hover {
+    background-color: #baa450;
+    box-shadow: 0 4px 18px rgba(197, 160, 89, 0.42);
+    transform: translateY(-1px);
+  }
+}
+
+/* Outline Button: Hairline gold border, transparent, fills softly on hover */
+.btn-outline {
+  min-height: 48px;
+  height: 48px;
+  padding: 0 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  background-color: transparent;
+  color: var(--color-charcoal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  border-radius: 2px;
+  border: 1px solid var(--color-gold-warm);
+  transition: all var(--dur-fast) var(--ease-luxe);
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-outline:hover {
+    background-color: rgba(243, 232, 224, 0.5);
+    border-color: var(--color-gold-dark);
+    transform: translateY(-1px);
+  }
+}
+
+/* Ghost Button: Transparent, subtle sand hover */
+.btn-ghost {
+  min-height: 48px;
+  height: 48px;
+  padding: 0 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: var(--color-charcoal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  transition: all var(--dur-fast) var(--ease-luxe);
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-ghost:hover {
+    background-color: var(--color-sand-light);
+    color: var(--color-charcoal);
+  }
+}
+
+/* WhatsApp Accent Button */
+.btn-whatsapp {
+  min-height: 48px;
+  height: 48px;
+  padding: 0 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  background-color: #25D366;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border-radius: 2px;
+  box-shadow: 0 2px 10px rgba(37, 211, 102, 0.28);
+  transition: all var(--dur-fast) var(--ease-luxe);
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-whatsapp:hover {
+    background-color: #20BD5A;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.38);
+    transform: translateY(-1px);
+  }
+}
+
+/* Luxury Input System */
+.input-luxe {
+  min-height: 44px;
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-sand);
+  border-radius: 2px;
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  transition: border-color var(--dur-fast) var(--ease-luxe),
+              box-shadow var(--dur-fast) var(--ease-luxe);
+}
+
+.input-luxe:focus {
+  outline: none;
+  border-color: var(--color-gold-warm);
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+}
+
+/* Step 13: Ken Burns slow scale on Hero background */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+.hero-ken-burns {
+  animation: ken-burns 8s var(--ease-luxe) forwards;
+  will-change: transform;
+}
+
+/* Step 13: Badge fade-in */
+@keyframes hero-badge-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-badge-in {
+  animation: hero-badge-in 700ms var(--ease-luxe) 150ms both;
+}
+
+/* Step 13: Hero H1 Line-by-Line Reveal Mask */
+.hero-line-mask {
+  overflow: hidden;
+  display: block;
+}
+
+@keyframes hero-line-reveal {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.hero-line-inner {
+  display: inline-block;
+  animation: hero-line-reveal 700ms var(--ease-luxe) both;
+  will-change: transform;
+}
+
+.hero-line-1 {
+  animation-delay: 200ms;
+}
+
+.hero-line-2 {
+  animation-delay: 320ms;
+}
+
+.hero-line-3 {
+  animation-delay: 440ms;
+}
+
+/* Step 13: Subtext and CTAs fade up */
+@keyframes hero-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-subtext-in {
+  animation: hero-fade-up 700ms var(--ease-luxe) 560ms both;
+}
+
+.hero-cta-in {
+  animation: hero-fade-up 700ms var(--ease-luxe) 680ms both;
+}
+
+.hero-metrics-in {
+  animation: hero-fade-up 700ms var(--ease-luxe) 800ms both;
+}
+
+/* Step 13: Gold shimmer sweep on the primary CTA */
+@keyframes gold-shimmer-sweep {
+  0% {
+    transform: translateX(-150%) rotate(25deg);
+  }
+  30%, 100% {
+    transform: translateX(250%) rotate(25deg);
+  }
+}
+
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: gold-shimmer-sweep 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.btn-shimmer:hover::before {
+  animation-play-state: paused;
+}
+
+/* Step 13: Scroll Cue with animated dot */
+@keyframes scroll-dot-loop {
+  0% {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+}
+
+.animate-scroll-dot {
+  animation: scroll-dot-loop 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* Step 13: Parallax on Hero Image */
+@supports (animation-timeline: scroll()) {
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .hero-parallax-layer {
+      animation: hero-scroll-parallax linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px 700px;
+    }
+
+    @keyframes hero-scroll-parallax {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(120px);
+      }
+    }
+  }
+}
+
+/* Step 13: Navbar active item animated gold underline */
+.nav-link-item {
+  position: relative;
+  transition: color var(--dur-fast) var(--ease-luxe);
+}
+
+.nav-link-item::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: var(--color-gold-warm);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--dur-fast) var(--ease-luxe);
+}
+
+.nav-link-item:hover::after,
+.nav-link-item.active::after {
+  transform: scaleX(1);
+}
+
+/* Glass panel */
+.glass-panel {
+  background: rgba(250, 248, 245, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.glass-panel-dark {
+  background: rgba(18, 18, 18, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-sand);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-warm);
+}
+
+@supports (scrollbar-color: auto) {
+  * {
+    scrollbar-color: var(--color-sand) var(--color-cream);
+    scrollbar-width: thin;
+  }
+}
+
+/* Accessible reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .btn-shimmer::before {
+    animation: none !important;
+    display: none !important;
+  }
+
+  .scroll-cue,
+  .animate-scroll-dot {
+    display: none !important;
+    animation: none !important;
+  }
+
+  .hero-ken-burns,
+  .hero-parallax-layer,
+  .hero-line-inner {
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .nav-link-item::after {
+    transition: none !important;
+  }
+
+  .card-interactive:hover,
+  .pillar-card:hover,
+  .bridal-card:hover {
+    transform: none !important;
+  }
+
+  .card-interactive::after {
+    display: none !important;
+  }
+}

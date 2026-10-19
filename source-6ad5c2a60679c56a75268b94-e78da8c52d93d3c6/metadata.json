@@ -1,0 +1,6 @@
+{
+  "name": "Luxeora Studio",
+  "description": "Luxeora Studio — Luxury, women-only salon and aesthetic atelier in F-6 Super Market, Islamabad.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
