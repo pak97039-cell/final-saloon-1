@@ -76,14 +76,14 @@ export const siteConfig: SiteConfig = {
     full: 'Suites 14-16, Block B, Super Market, F-6 Markaz, Islamabad',
   },
   phone: {
-    display: '+92 51 282 3901',
-    raw: '+92512823901',
+    display: '+92 312 8664280',
+    raw: '+923128664280',
   },
   whatsapp: {
-    number: '923005893672',
+    number: '923128664280',
     defaultMessage: 'Hello Luxeora Studio, I would like to inquire about reserving a private suite appointment.',
     get url(): string {
-      return `https://wa.me/923005893672?text=${encodeURIComponent(this.defaultMessage)}`;
+      return `https://wa.me/923128664280?text=${encodeURIComponent(this.defaultMessage)}`;
     },
   },
   hours: {

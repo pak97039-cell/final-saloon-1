@@ -116,9 +116,9 @@ export const siteConfig = {
   city: 'Islamabad',
   area: 'F-6 Super Market',
   address: 'Suites 14-16, Block B, Super Market, F-6 Markaz, Islamabad, 44000',
-  phone: '+92 51 282 3901',
-  whatsappNumber: '+923005559812',
-  whatsappDisplay: '+92 300 555 9812',
+  phone: '+92 312 8664280',
+  whatsappNumber: '+923128664280',
+  whatsappDisplay: '+92 312 8664280',
   hours: {
     open: '10:30 AM',
     close: '9:00 PM',

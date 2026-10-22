@@ -366,8 +366,8 @@ export const studio: Studio = {
   name: 'Luxeora Studio',
   address: 'Suites 14-16, Block B, Super Market, F-6 Markaz',
   area: 'F-6 Markaz, Islamabad',
-  phone: '+92 51 282 3901',
-  whatsapp: '923005893672',
+  phone: '+92 312 8664280',
+  whatsapp: '923128664280',
   hours: '10:30 AM - 9:00 PM daily',
   amenities: [
     'Private Women-Only Bridal Suites',
